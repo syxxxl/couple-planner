@@ -290,25 +290,92 @@ body {
 </div>
 
 <script>
+const OWNER = 'syxxxl';
+const REPO  = 'couple-planner';
+const FILE  = 'data.json';
+const API   = 'https://api.github.com/repos/'+OWNER+'/'+REPO+'/contents/'+FILE;
+const RAW   = 'https://raw.githubusercontent.com/'+OWNER+'/'+REPO+'/master/'+FILE;
+
 const E = ['😍','🥰','😆','😋','🤩','🥳','😌','🤯','😅','😢','😤','😴'];
 const H = ['💕','💖','💗','💝','💘','✨','💫','🌸'];
 
-let names = JSON.parse(localStorage.cp_n || '["",""]');
-let list  = JSON.parse(localStorage.cp_l || '[]');
+let names = ['',''];
+let list  = [];
+let sha   = null;
+let token = '';
 
-document.getElementById('n1').value = names[0];
-document.getElementById('n2').value = names[1];
-document.getElementById('n1').oninput = sn;
-document.getElementById('n2').oninput = sn;
+function getToken() {
+  token = localStorage.cp_tk || '';
+  if (token) return;
+  var tk = prompt('首次使用需要输入 GitHub Token 用于同步数据：\n\n（同一个 Token，你和 TA 各输一次就行）\n');
+  if (tk && tk.trim()) {
+    token = tk.trim();
+    localStorage.cp_tk = token;
+  }
+}
+
+function loadData() {
+  fetch(RAW + '?t=' + Date.now())
+    .then(function(r){ if (!r.ok) throw r; return r.json(); })
+    .then(function(d){
+      names = d.names || ['',''];
+      list  = d.list  || [];
+      sha   = d._sha  || null;
+      applyAndRender();
+    })
+    .catch(function(){
+      var a = localStorage.cp_n;
+      var b = localStorage.cp_l;
+      if (a && b) {
+        names = JSON.parse(a);
+        list  = JSON.parse(b);
+      }
+      render();
+    });
+}
+
+function pushData() {
+  if (!token) return;
+  var body = JSON.stringify({
+    names: names,
+    list: list,
+    _sha: null
+  });
+  var headers = {
+    'Authorization': 'token ' + token,
+    'Content-Type': 'application/json'
+  };
+  var payload = {
+    message: 'update data',
+    content: btoa(unescape(encodeURIComponent(body)))
+  };
+  if (sha) payload.sha = sha;
+
+  fetch(API, { method: 'PUT', headers: headers, body: JSON.stringify(payload) })
+    .then(function(r){ return r.json(); })
+    .then(function(d){ sha = d.content.sha; })
+    .catch(function(){});
+}
+
+function sv() {
+  var body = JSON.stringify({ names: names, list: list, _sha: null });
+  localStorage.cp_n = JSON.stringify(names);
+  localStorage.cp_l = JSON.stringify(list);
+  pushData();
+  render();
+}
+
+function applyAndRender() {
+  document.getElementById('n1').value = names[0] || '';
+  document.getElementById('n2').value = names[1] || '';
+  render();
+}
 
 function sn() {
   names[0] = document.getElementById('n1').value.trim();
   names[1] = document.getElementById('n2').value.trim();
-  localStorage.cp_n = JSON.stringify(names);
-  render();
+  sv();
 }
-
-function sv() { localStorage.cp_l = JSON.stringify(list); render(); }
 
 function add() {
   var t = document.getElementById('ti').value.trim();
@@ -343,17 +410,15 @@ function toggle(id) {
 function pm(id, mood) {
   document.getElementById('m_'+id).value = mood;
   var sps = document.querySelectorAll('#e_'+id+' span');
-  sps.forEach(function(s){
-    s.className = s.textContent === mood ? 'on' : '';
-  });
+  sps.forEach(function(s){ s.className = s.textContent === mood ? 'on' : ''; });
   var item = list.find(function(x){ return x.id === id; });
-  if (item) { item.mood = mood; localStorage.cp_l = JSON.stringify(list); }
+  if (item) { item.mood = mood; sv(); }
 }
 
 function st(id) {
   var item = list.find(function(x){ return x.id === id; });
   var ti = document.getElementById('t_'+id);
-  if (item && ti) { item.time = ti.value; localStorage.cp_l = JSON.stringify(list); }
+  if (item && ti) { item.time = ti.value; sv(); }
 }
 
 function bHeart() {
@@ -425,7 +490,11 @@ function render() {
   s.innerHTML = h;
 })();
 
-render();
+document.getElementById('n1').oninput = sn;
+document.getElementById('n2').oninput = sn;
+
+getToken();
+loadData();
 </script>
 </body>
 </html>
