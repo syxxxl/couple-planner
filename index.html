@@ -2,356 +2,423 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
 <title>我们的约定清单</title>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  background: linear-gradient(135deg, #fce4ec 0%, #f8bbd0 30%, #f48fb1 60%, #fce4ec 100%);
+  font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+  background: #0d0d1a;
   min-height: 100vh;
-  padding: 16px;
+  min-height: 100dvh;
+  overflow-x: hidden;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
 }
 
-.container { max-width: 500px; margin: 0 auto; }
+/* 星空 */
+.stars {
+  position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden;
+}
+.star {
+  position: absolute; border-radius: 50%; background: #fff;
+  animation: twinkle var(--d) ease-in-out infinite;
+  animation-delay: var(--dl);
+}
+@keyframes twinkle {
+  0%,100% { opacity: 0.15; transform: scale(1); }
+  50% { opacity: 0.9; transform: scale(1.6); box-shadow: 0 0 8px #fff; }
+}
 
-h1 {
+/* 流星 */
+.shooting {
+  position: fixed; pointer-events: none; z-index: 0;
+  width: 2px; height: 2px; background: #fff; border-radius: 50%;
+  box-shadow: 0 0 8px 3px rgba(255,255,255,0.5);
+  animation: shoot 3s linear infinite;
+}
+.shooting::after {
+  content: ''; position: absolute; top: 50%; transform: translateY(-50%);
+  width: 70px; height: 1px;
+  background: linear-gradient(90deg, rgba(255,255,255,0.6), transparent);
+}
+@keyframes shoot {
+  0% { left: -5%; top: 8%; opacity: 0; }
+  8% { opacity: 1; }
+  25% { left: 110%; top: 25%; opacity: 0; }
+  100% { opacity: 0; left: 110%; top: 25%; }
+}
+
+/* 光晕 */
+.glow {
+  position: fixed; border-radius: 50%; pointer-events: none; z-index: 0;
+  filter: blur(90px);
+}
+.glow.a { width: 220px; height: 220px; background: #ff6b9d; top: 5%; left: -8%; opacity: 0.12; animation: orbA 10s ease-in-out infinite; }
+.glow.b { width: 180px; height: 180px; background: #c44dff; top: 45%; right: -8%; opacity: 0.1; animation: orbB 12s ease-in-out infinite; }
+.glow.c { width: 150px; height: 150px; background: #ff9a9e; bottom: 8%; left: 15%; opacity: 0.1; animation: orbC 9s ease-in-out infinite; }
+@keyframes orbA { 0%,100%{transform:translate(0,0) scale(1)} 33%{transform:translate(40px,-25px) scale(1.15)} 66%{transform:translate(-20px,15px) scale(0.9)} }
+@keyframes orbB { 0%,100%{transform:translate(0,0) scale(1)} 33%{transform:translate(-30px,20px) scale(1.1)} 66%{transform:translate(25px,-15px) scale(0.85)} }
+@keyframes orbC { 0%,100%{transform:translate(0,0) scale(1)} 33%{transform:translate(20px,20px) scale(1.05)} 66%{transform:translate(-30px,-10px) scale(0.95)} }
+
+/* 主容器 */
+.ct {
+  position: relative; z-index: 1;
+  max-width: 420px; margin: 0 auto;
+  padding: 10px 14px 50px;
+}
+
+/* 标题 */
+.hd {
+  text-align: center; padding: 16px 0 6px;
+}
+.hd .t {
+  font-size: 1.4rem; font-weight: 700;
+  background: linear-gradient(135deg, #ff6b9d, #c44dff, #ff9a9e);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: 3px;
+}
+.hd .s {
+  font-size: 0.75rem; color: rgba(255,255,255,0.35);
+  letter-spacing: 1px; margin-top: 2px;
+}
+
+/* 姓名卡片 */
+.nc {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 20px; padding: 14px; margin-bottom: 12px;
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+}
+.nc .r { display: flex; align-items: center; gap: 6px; }
+.nc input {
+  flex: 1; background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.08); color: #eee;
+  padding: 9px 10px; border-radius: 14px; font-size: 0.88rem;
+  text-align: center; outline: none; transition: all 0.3s;
+}
+.nc input:focus {
+  border-color: rgba(255,107,157,0.4);
+  box-shadow: 0 0 22px rgba(255,107,157,0.12);
+  background: rgba(255,255,255,0.1);
+}
+.nc input::placeholder { color: rgba(255,255,255,0.2); }
+.nc .hi {
+  font-size: 1.3rem; flex-shrink: 0;
+  animation: hb 1.2s ease-in-out infinite;
+  filter: drop-shadow(0 0 10px rgba(255,107,157,0.5));
+}
+@keyframes hb {
+  0%,100% { transform: scale(1); }
+  14% { transform: scale(1.28); }
+  28% { transform: scale(1); }
+  42% { transform: scale(1.22); }
+  56% { transform: scale(1); }
+}
+
+/* 统计 */
+.st {
+  display: flex; justify-content: center; gap: 32px; margin-bottom: 12px;
+}
+.st .num {
+  font-size: 1.5rem; font-weight: 700;
+  background: linear-gradient(135deg, #ff6b9d, #ff9a9e);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
   text-align: center;
-  font-size: 1.6rem;
-  color: #ad1457;
-  margin: 12px 0 8px;
-  letter-spacing: 2px;
+}
+.st .lb { font-size: 0.7rem; color: rgba(255,255,255,0.35); text-align: center; }
+
+/* 添加表单 */
+.ac {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 20px; padding: 13px; margin-bottom: 12px;
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+}
+.ac input {
+  width: 100%; background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.08); color: #eee;
+  padding: 10px 12px; border-radius: 14px; font-size: 0.9rem;
+  outline: none; margin-bottom: 7px; transition: all 0.3s;
+}
+.ac input:focus {
+  border-color: rgba(196,77,255,0.4);
+  box-shadow: 0 0 20px rgba(196,77,255,0.1);
+}
+.ac input::placeholder { color: rgba(255,255,255,0.2); }
+.abtn {
+  width: 100%; padding: 11px; border: none; border-radius: 14px;
+  background: linear-gradient(135deg, #ff6b9d, #c44dff);
+  color: #fff; font-size: 0.93rem; letter-spacing: 3px; font-weight: 600;
+  cursor: pointer; transition: all 0.3s;
+  box-shadow: 0 4px 24px rgba(196,77,255,0.2);
+}
+.abtn:active { transform: scale(0.96); box-shadow: 0 2px 10px rgba(196,77,255,0.3); }
+
+/* 卡片 */
+.pc {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.05);
+  border-radius: 18px; padding: 14px; margin-bottom: 10px;
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  position: relative; overflow: hidden; transition: all 0.35s;
+}
+.pc.dn { background: rgba(255,255,255,0.02); border-color: rgba(255,255,255,0.03); }
+.pc::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent);
+}
+.pc:active { transform: scale(0.98); }
+
+.pc .hd2 { display: flex; align-items: flex-start; justify-content: space-between; }
+.pc .tt { font-size: 0.93rem; font-weight: 600; color: #eee; flex: 1; padding-right: 6px; line-height: 1.4; }
+.pc .x { font-size: 0.9rem; color: rgba(255,255,255,0.25); cursor: pointer; padding: 3px 5px; }
+.pc .x:active { color: #ff6b9d; }
+.pc .ds { font-size: 0.78rem; color: rgba(255,255,255,0.4); margin-top: 3px; line-height: 1.5; }
+
+.bdg {
+  display: inline-block; padding: 2px 9px; border-radius: 10px;
+  font-size: 0.68rem; letter-spacing: 1px; margin-top: 6px;
+}
+.bdg.td { background: rgba(196,77,255,0.12); color: rgba(196,77,255,0.75); border: 1px solid rgba(196,77,255,0.15); }
+.bdg.dn { background: rgba(102,187,106,0.12); color: rgba(102,187,106,0.75); border: 1px solid rgba(102,187,106,0.15); }
+
+.pc .tm { font-size: 0.76rem; color: rgba(255,255,255,0.4); margin-top: 6px; }
+
+.er {
+  display: flex; gap: 2px; flex-wrap: wrap; margin-top: 8px;
+}
+.er span {
+  font-size: 1.25rem; padding: 4px 7px; border-radius: 14px;
+  cursor: pointer; transition: all 0.2s; opacity: 0.45;
+}
+.er span:active, .er span.on { opacity: 1; transform: scale(1.15); background: rgba(255,255,255,0.06); box-shadow: 0 0 14px rgba(255,107,157,0.15); }
+
+.pc .md { font-size: 1.7rem; margin-top: 6px; }
+
+.dr {
+  display: flex; align-items: center; gap: 5px; margin-top: 8px;
+  font-size: 0.76rem; color: rgba(255,255,255,0.4);
+}
+.dr input {
+  background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.08);
+  color: #eee; padding: 6px 8px; border-radius: 10px; font-size: 0.76rem; outline: none;
+}
+.dr input:focus { border-color: rgba(196,77,255,0.35); }
+
+.br { display: flex; gap: 6px; margin-top: 8px; }
+.br button {
+  flex: 1; padding: 7px; border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.1);
+  background: rgba(255,255,255,0.04);
+  color: rgba(255,255,255,0.6); font-size: 0.76rem;
+  cursor: pointer; transition: all 0.25s; letter-spacing: 1px;
+}
+.br button:active { background: rgba(255,255,255,0.1); transform: scale(0.96); }
+.br .b1 { border-color: rgba(102,187,106,0.25); color: #81c784; }
+.br .b2 { border-color: rgba(255,107,157,0.25); color: rgba(255,107,157,0.65); }
+
+.emp { text-align: center; padding: 36px 16px; color: rgba(255,255,255,0.25); }
+.emp .bi { font-size: 2.8rem; display: block; margin-bottom: 10px; opacity: 0.5; }
+
+/* 漂浮 */
+.fh {
+  position: fixed; inset: 0; pointer-events: none; z-index: 999; overflow: hidden;
+}
+.fh span {
+  position: absolute; font-size: 1.1rem;
+  animation: fu 3.2s ease-out forwards;
+}
+@keyframes fu {
+  0% { opacity: 1; transform: translateY(0) scale(0.4) rotate(0deg); }
+  60% { opacity: 0.6; transform: translateY(-45vh) scale(1) rotate(12deg); }
+  100% { opacity: 0; transform: translateY(-85vh) scale(0.2) rotate(-12deg); }
 }
 
-.subtitle {
-  text-align: center;
-  font-size: 0.85rem;
-  color: #d81b60;
-  margin-bottom: 16px;
+@media (max-width: 360px) {
+  .ct { padding: 6px 8px 40px; }
+  .hd .t { font-size: 1.2rem; letter-spacing: 2px; }
+  .er span { font-size: 1.1rem; padding: 3px 5px; }
 }
-
-.stats {
-  display: flex;
-  justify-content: center;
-  gap: 24px;
-  margin-bottom: 16px;
-  font-size: 0.82rem;
-  color: #880e4f;
-}
-.stats span { font-weight: bold; font-size: 1.1rem; color: #c62828; }
-
-.emoji-bar {
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-  margin-bottom: 16px;
-  font-size: 1.6rem;
-  animation: float 3s ease-in-out infinite;
-}
-@keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-6px); }
-}
-
-.add-form {
-  background: rgba(255,255,255,0.85);
-  border-radius: 16px;
-  padding: 14px;
-  margin-bottom: 16px;
-  box-shadow: 0 2px 12px rgba(233,30,99,0.12);
-  backdrop-filter: blur(10px);
-}
-
-.add-form input {
-  width: 100%;
-  padding: 10px 12px;
-  border: 1.5px solid #f8bbd0;
-  border-radius: 12px;
-  font-size: 0.95rem;
-  margin-bottom: 8px;
-  background: #fff;
-  outline: none;
-  transition: border-color 0.2s;
-}
-.add-form input:focus { border-color: #e91e63; }
-
-.add-form .row {
-  display: flex;
-  gap: 8px;
-}
-
-.add-form .row input { flex: 1; }
-
-.add-form button {
-  width: 100%;
-  padding: 11px;
-  background: linear-gradient(135deg, #e91e63, #c62828);
-  color: #fff;
-  border: none;
-  border-radius: 12px;
-  font-size: 0.95rem;
-  cursor: pointer;
-  letter-spacing: 1px;
-  margin-top: 8px;
-  transition: transform 0.15s, box-shadow 0.15s;
-}
-.add-form button:active { transform: scale(0.97); }
-
-.card {
-  background: rgba(255,255,255,0.9);
-  border-radius: 16px;
-  padding: 14px 16px;
-  margin-bottom: 12px;
-  box-shadow: 0 2px 10px rgba(233,30,99,0.1);
-  border-left: 4px solid #f48fb1;
-  transition: transform 0.2s, box-shadow 0.2s;
-  backdrop-filter: blur(10px);
-  position: relative;
-}
-.card.done { border-left-color: #66bb6a; opacity: 0.85; }
-.card:active { transform: scale(0.99); }
-
-.card .card-title {
-  font-size: 1rem;
-  font-weight: 600;
-  color: #4a148c;
-  margin-bottom: 4px;
-  padding-right: 24px;
-}
-
-.card .card-time {
-  font-size: 0.78rem;
-  color: #999;
-  margin-bottom: 6px;
-}
-
-.card .card-mood {
-  font-size: 1.5rem;
-  margin: 4px 0;
-}
-
-.card .card-actions {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-  margin-top: 8px;
-}
-
-.card .card-actions button {
-  padding: 6px 13px;
-  border-radius: 20px;
-  border: 1px solid #f8bbd0;
-  background: #fff;
-  font-size: 0.78rem;
-  cursor: pointer;
-  color: #ad1457;
-  transition: background 0.2s;
-}
-.card .card-actions button:active { background: #fce4ec; }
-
-.card .card-actions .del-btn {
-  border-color: #ef9a9a;
-  color: #c62828;
-}
-
-.card .del {
-  position: absolute;
-  top: 10px;
-  right: 12px;
-  font-size: 1.1rem;
-  cursor: pointer;
-  opacity: 0.5;
-  transition: opacity 0.2s;
-}
-.card .del:hover { opacity: 1; }
-
-.mood-picker {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-  margin: 6px 0;
-  padding: 8px;
-  background: #fff3e0;
-  border-radius: 12px;
-}
-.mood-picker span {
-  font-size: 1.5rem;
-  cursor: pointer;
-  padding: 4px 8px;
-  border-radius: 12px;
-  transition: transform 0.15s, background 0.15s;
-}
-.mood-picker span:hover { transform: scale(1.3); background: #ffe0b2; }
-
-.time-input-row {
-  display: flex;
-  gap: 6px;
-  align-items: center;
-  margin: 6px 0;
-  font-size: 0.82rem;
-  color: #666;
-}
-.time-input-row input {
-  padding: 6px 10px;
-  border: 1px solid #f8bbd0;
-  border-radius: 10px;
-  font-size: 0.82rem;
-  outline: none;
-}
-
-.badge {
-  display: inline-block;
-  background: #e91e63;
-  color: #fff;
-  font-size: 0.7rem;
-  padding: 2px 10px;
-  border-radius: 12px;
-  margin-left: 6px;
-}
-.badge.done-badge { background: #66bb6a; }
-
-.empty {
-  text-align: center;
-  color: #ad1457;
-  padding: 40px 0;
-  font-size: 0.9rem;
-  opacity: 0.7;
-}
-.empty .big { font-size: 3rem; display: block; margin-bottom: 10px; }
 </style>
 </head>
 <body>
 
-<div class="container">
-  <div class="emoji-bar">🐻  💕  🐰</div>
-  <h1>我们的约定清单</h1>
-  <p class="subtitle">把想一起做的事写下来，一件一件完成 ✨</p>
+<div class="glow a"></div>
+<div class="glow b"></div>
+<div class="glow c"></div>
+<div class="stars" id="stars"></div>
+<div class="shooting"></div>
+<div class="fh" id="fh"></div>
 
-  <div class="stats">
-    <div>已完成<br><span id="doneCount">0</span></div>
-    <div>待完成<br><span id="todoCount">0</span></div>
+<div class="ct">
+
+  <div class="hd">
+    <div class="t" id="mainTitle">我们的约定清单</div>
+    <div class="s">把想一起做的事写下来，一件件完成 ✨</div>
   </div>
 
-  <div class="add-form">
-    <input id="titleInput" placeholder="想一起做什么？" maxlength="50">
-    <input id="descInput" placeholder="比如：去海边看日出、一起做饭..." maxlength="100">
-    <button onclick="addCard()">＋ 添加</button>
+  <div class="nc">
+    <div class="r">
+      <input id="n1" placeholder="你的名字" maxlength="10">
+      <span class="hi">💗</span>
+      <input id="n2" placeholder="TA的名字" maxlength="10">
+    </div>
   </div>
 
-  <div id="cardsContainer"></div>
+  <div class="st">
+    <div><div class="num" id="dn">0</div><div class="lb">已完成</div></div>
+    <div><div class="num" id="tn">0</div><div class="lb">待完成</div></div>
+  </div>
+
+  <div class="ac">
+    <input id="ti" placeholder="想一起做什么？" maxlength="50">
+    <input id="di" placeholder="补充描述（选填）" maxlength="100">
+    <button class="abtn" onclick="add()">十 添 加</button>
+  </div>
+
+  <div id="cards"></div>
+
 </div>
 
 <script>
-const MOODS = ['😍','😆','🥰','😋','🥳','🤩','😌','😅','😢','😤','🤯','😴'];
+const E = ['😍','🥰','😆','😋','🤩','🥳','😌','🤯','😅','😢','😤','😴'];
+const H = ['💕','💖','💗','💝','💘','✨','💫','🌸'];
 
-let list = JSON.parse(localStorage.getItem('couple_plans') || '[]');
+let names = JSON.parse(localStorage.cp_n || '["",""]');
+let list  = JSON.parse(localStorage.cp_l || '[]');
 
-function save() {
-  localStorage.setItem('couple_plans', JSON.stringify(list));
+document.getElementById('n1').value = names[0];
+document.getElementById('n2').value = names[1];
+document.getElementById('n1').oninput = sn;
+document.getElementById('n2').oninput = sn;
+
+function sn() {
+  names[0] = document.getElementById('n1').value.trim();
+  names[1] = document.getElementById('n2').value.trim();
+  localStorage.cp_n = JSON.stringify(names);
   render();
 }
 
-function addCard() {
-  const t = document.getElementById('titleInput').value.trim();
-  const d = document.getElementById('descInput').value.trim();
+function sv() { localStorage.cp_l = JSON.stringify(list); render(); }
+
+function add() {
+  var t = document.getElementById('ti').value.trim();
   if (!t) return;
+  var d = document.getElementById('di').value.trim();
   list.unshift({ id: Date.now(), title: t, desc: d, done: false, time: '', mood: '' });
-  document.getElementById('titleInput').value = '';
-  document.getElementById('descInput').value = '';
-  save();
+  document.getElementById('ti').value = '';
+  document.getElementById('di').value = '';
+  bHeart();
+  sv();
 }
 
-function del(id) {
-  list = list.filter(x => x.id !== id);
-  save();
-}
+function del(id) { list = list.filter(function(x){ return x.id !== id; }); sv(); }
 
-function toggleDone(id) {
-  const item = list.find(x => x.id === id);
+function toggle(id) {
+  var item = list.find(function(x){ return x.id === id; });
   if (!item) return;
   if (item.done) {
-    item.done = false;
-    item.time = '';
-    item.mood = '';
+    item.done = false; item.time = ''; item.mood = '';
   } else {
-    const timeStr = document.getElementById('timeInput_' + id);
-    const moodStr = document.getElementById('moodHidden_' + id);
-    if (timeStr) item.time = timeStr.value;
-    if (moodStr) item.mood = moodStr.value;
+    var ti = document.getElementById('t_'+id);
+    var mh = document.getElementById('m_'+id);
+    if (ti) item.time = ti.value;
+    if (mh) item.mood = mh.value;
+    if (!item.mood && mh) item.mood = '😍';
     item.done = true;
+    bSpark();
   }
-  save();
+  sv();
 }
 
-function setMood(id, mood) {
-  const item = list.find(x => x.id === id);
-  if (!item) return;
-  item.mood = mood;
-  document.getElementById('moodHidden_' + id).value = mood;
-  document.querySelectorAll('#moodPicker_' + id + ' span').forEach(s => {
-    s.style.background = s.textContent === mood ? '#ffe0b2' : '';
+function pm(id, mood) {
+  document.getElementById('m_'+id).value = mood;
+  var sps = document.querySelectorAll('#e_'+id+' span');
+  sps.forEach(function(s){
+    s.className = s.textContent === mood ? 'on' : '';
   });
+  var item = list.find(function(x){ return x.id === id; });
+  if (item) { item.mood = mood; localStorage.cp_l = JSON.stringify(list); }
 }
 
-function saveTime(id) {
-  const timeInput = document.getElementById('timeInput_' + id);
-  if (!timeInput) return;
-  const item = list.find(x => x.id === id);
-  if (item) item.time = timeInput.value;
-  save();
+function st(id) {
+  var item = list.find(function(x){ return x.id === id; });
+  var ti = document.getElementById('t_'+id);
+  if (item && ti) { item.time = ti.value; localStorage.cp_l = JSON.stringify(list); }
 }
 
-function updateStats() {
-  let done = 0, todo = 0;
-  list.forEach(x => x.done ? done++ : todo++);
-  document.getElementById('doneCount').textContent = done;
-  document.getElementById('todoCount').textContent = todo;
+function bHeart() {
+  var c = document.getElementById('fh');
+  for (var i = 0; i < 8; i++) {
+    var h = document.createElement('span');
+    h.textContent = H[i];
+    h.style.left = (15 + Math.random() * 70) + '%';
+    h.style.bottom = '5px';
+    h.style.animationDuration = (2.2 + Math.random() * 2.2) + 's';
+    h.style.animationDelay = (Math.random() * 0.4) + 's';
+    h.style.fontSize = (1 + Math.random() * 1.6) + 'rem';
+    c.appendChild(h);
+    setTimeout(function(){ h.remove(); }, 3500);
+  }
+}
+
+function bSpark() {
+  var c = document.getElementById('fh');
+  var sp = ['✨','🌟','💫','🎉'];
+  for (var i = 0; i < 22; i++) {
+    var s = document.createElement('span');
+    s.textContent = sp[i % 4];
+    s.style.left = (25 + Math.random() * 50) + '%';
+    s.style.bottom = '25%';
+    s.style.animationDuration = (1.5 + Math.random() * 2) + 's';
+    s.style.fontSize = (0.7 + Math.random() * 1.8) + 'rem';
+    c.appendChild(s);
+    setTimeout(function(){ s.remove(); }, 3500);
+  }
 }
 
 function render() {
-  const container = document.getElementById('cardsContainer');
+  var n1 = names[0] || '我';
+  var n2 = names[1] || 'TA';
+  document.getElementById('mainTitle').textContent = n1 + ' ♡ ' + n2;
+
+  var d = 0, t = 0;
+  list.forEach(function(x){ x.done ? d++ : t++; });
+  document.getElementById('dn').textContent = d;
+  document.getElementById('tn').textContent = t;
+
+  var c = document.getElementById('cards');
   if (list.length === 0) {
-    container.innerHTML = '<div class="empty"><span class="big">📝</span>还没有约定，快添加第一个吧</div>';
+    c.innerHTML = '<div class="emp"><span class="bi">💌</span>还没有约定哦<br>写下来就不会忘了</div>';
   } else {
-    container.innerHTML = list.map(item => {
-      const moodPickerHtml = !item.done ? `
-        <div class="mood-picker" id="moodPicker_${item.id}">
-          ${MOODS.map(m => `<span onclick="setMood(${item.id},'${m}')" style="${item.mood===m?'background:#ffe0b2':''}">${m}</span>`).join('')}
-        </div>
-        <input type="hidden" id="moodHidden_${item.id}" value="${item.mood}">
-      ` : '';
-
-      const timeInputHtml = !item.done ? `
-        <div class="time-input-row">
-          <span>完成时间：</span>
-          <input type="date" id="timeInput_${item.id}" value="${item.time}" onchange="saveTime(${item.id})">
-        </div>
-      ` : '';
-
-      const moodDisplay = item.mood ? `<div class="card-mood">${item.mood}</div>` : '';
-      const timeDisplay = item.time ? `<div class="card-time">🕐 ${item.time}</div>` : '';
-
-      return `
-        <div class="card ${item.done ? 'done' : ''}">
-          <span class="del" onclick="del(${item.id})">✕</span>
-          <div class="card-title">
-            ${item.title}
-            ${item.done ? '<span class="badge done-badge">已完成</span>' : '<span class="badge">待完成</span>'}
-          </div>
-          ${item.desc ? `<div style="font-size:0.82rem;color:#666;margin-bottom:4px">${item.desc}</div>` : ''}
-          ${item.done ? timeDisplay : timeInputHtml}
-          ${item.done ? moodDisplay : moodPickerHtml}
-          <div class="card-actions">
-            <button onclick="toggleDone(${item.id})">${item.done ? '↩ 取消完成' : '✅ 标记完成'}</button>
-            <button class="del-btn" onclick="del(${item.id})">删除</button>
-          </div>
-        </div>
-      `;
+    c.innerHTML = list.map(function(item){
+      var ep = !item.done ? '<div class="er" id="e_'+item.id+'">'+E.map(function(m){ return '<span onclick="pm('+item.id+',\''+m+'\')" class="'+(item.mood===m?'on':'')+'">'+m+'</span>'; }).join('')+'</div><input type="hidden" id="m_'+item.id+'" value="'+item.mood+'">' : '';
+      var dp = !item.done ? '<div class="dr"><span>完成时间</span><input type="date" id="t_'+item.id+'" value="'+item.time+'" onchange="st('+item.id+')"></div>' : (item.time ? '<div class="tm">🕐 '+item.time+'</div>' : '');
+      var mp = item.done && item.mood ? '<div class="md">'+item.mood+'</div>' : '';
+      return '<div class="pc '+ (item.done?'dn':'') +'">'
+        +'<div class="hd2"><div class="tt">'+item.title+'</div><div class="x" onclick="del('+item.id+')">✕</div></div>'
+        +(item.desc ? '<div class="ds">'+item.desc+'</div>' : '')
+        +'<div class="bdg '+ (item.done?'dn':'td') +'">'+ (item.done?'✓ 已完成':'待完成') +'</div>'
+        +(item.done ? mp : ep)
+        +dp
+        +'<div class="br"><button class="b1" onclick="toggle('+item.id+')">'+ (item.done?'↩ 取消':'✅ 完成') +'</button><button class="b2" onclick="del('+item.id+')">删除</button></div>'
+        +'</div>';
     }).join('');
   }
-  updateStats();
 }
+
+(function mkStars(){
+  var s = document.getElementById('stars'), h = '';
+  for (var i = 0; i < 55; i++) {
+    var sz = Math.random()*2.5 + 1;
+    h += '<div class="star" style="width:'+sz+'px;height:'+sz+'px;left:'+Math.random()*100+'%;top:'+Math.random()*100+'%;--d:'+(2+Math.random()*5)+'s;--dl:'+(Math.random()*3)+'s;"></div>';
+  }
+  s.innerHTML = h;
+})();
 
 render();
 </script>
