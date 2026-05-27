@@ -155,6 +155,12 @@ body {
 }
 .abtn:active { transform: scale(0.96); box-shadow: 0 2px 10px rgba(196,77,255,0.3); }
 
+.sync-dot {
+  text-align: center; margin-bottom: 10px; font-size: 0.72rem;
+}
+.sync-dot.ok { color: #81c784; }
+.sync-dot.err { color: #ef9a9a; }
+
 .pc {
   background: rgba(255,255,255,0.04);
   border: 1px solid rgba(255,255,255,0.05);
@@ -269,6 +275,8 @@ body {
     <div><div class="num" id="tn">0</div><div class="lb">待完成</div></div>
   </div>
 
+  <div class="sync-dot" id="syncDot">⏳ 加载中...</div>
+
   <div class="ac">
     <input id="ti" placeholder="想一起做什么？" maxlength="50">
     <input id="di" placeholder="补充描述（选填）" maxlength="100">
@@ -294,13 +302,20 @@ let list  = [];
 let sha   = null;
 let token = '';
 
+function setSyncDot(cls, txt) {
+  var d = document.getElementById('syncDot');
+  d.className = 'sync-dot ' + cls;
+  d.textContent = txt;
+}
+
 function getToken() {
   token = localStorage.cp_tk || '';
-  if (token) return;
-  var tk = prompt('首次使用需要输入 GitHub Token 用于同步数据：\n\n（同一个 Token，你和 TA 各输一次就行）\n');
+  if (token) { setSyncDot('ok', '🟢 已连接云端'); return; }
+  var tk = prompt('首次使用需要输入 GitHub Token 用于同步数据：\n\n同一个 Token，你和 TA 各输一次就行\n\n（去 https://github.com/settings/tokens 创建，勾选 repo）\n');
   if (tk && tk.trim()) {
     token = tk.trim();
     localStorage.cp_tk = token;
+    setSyncDot('ok', '🟢 已连接云端');
   }
 }
 
@@ -310,45 +325,61 @@ function loadData() {
     .then(function(d){
       names = d.names || ['',''];
       list  = d.list  || [];
-      sha   = localStorage.cp_sha || null;
+      fetch(API, { headers: { 'Authorization': 'token ' + token } })
+        .then(function(r){ return r.json(); })
+        .then(function(info){ sha = info.sha || null; })
+        .catch(function(){});
       applyAndRender();
     })
     .catch(function(){
       var a = localStorage.cp_n;
       var b = localStorage.cp_l;
-      if (a && b) {
-        names = JSON.parse(a);
-        list  = JSON.parse(b);
-      }
+      if (a && b) { names = JSON.parse(a); list = JSON.parse(b); }
       render();
     });
 }
 
 function pushData() {
   if (!token) return;
-  var body = JSON.stringify({
-    names: names,
-    list: list,
-    _sha: null
-  });
-  var headers = {
-    'Authorization': 'token ' + token,
-    'Content-Type': 'application/json'
-  };
-  var payload = {
-    message: 'update data',
-    content: btoa(unescape(encodeURIComponent(body)))
-  };
-  if (sha) payload.sha = sha;
+  setSyncDot('', '⏳ 同步中...');
 
-  fetch(API, { method: 'PUT', headers: headers, body: JSON.stringify(payload) })
+  var body = JSON.stringify({ names: names, list: list });
+
+  // 先拿最新 SHA
+  fetch(API, { headers: { 'Authorization': 'token ' + token } })
+    .then(function(r){
+      if (r.status === 404) return {};
+      return r.json();
+    })
+    .then(function(info){
+      var currentSha = info.sha || null;
+      var payload = {
+        message: 'update',
+        content: btoa(unescape(encodeURIComponent(body)))
+      };
+      if (currentSha) payload.sha = currentSha;
+
+      return fetch(API, {
+        method: 'PUT',
+        headers: {
+          'Authorization': 'token ' + token,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload)
+      });
+    })
     .then(function(r){ return r.json(); })
-    .then(function(d){ sha = d.content.sha; localStorage.cp_sha = sha; })
-    .catch(function(){});
+    .then(function(d){
+      if (d.content) { sha = d.content.sha; }
+      setSyncDot('ok', '🟢 已同步 ' + new Date().toLocaleTimeString());
+    })
+    .catch(function(e){
+      setSyncDot('err', '🔴 同步失败');
+      console.log('sync error:', e);
+    });
 }
 
 function sv() {
-  var body = JSON.stringify({ names: names, list: list, _sha: null });
   localStorage.cp_n = JSON.stringify(names);
   localStorage.cp_l = JSON.stringify(list);
   pushData();
@@ -358,6 +389,7 @@ function sv() {
 function applyAndRender() {
   document.getElementById('n1').value = names[0] || '';
   document.getElementById('n2').value = names[1] || '';
+  setSyncDot('ok', '🟢 已同步');
   render();
 }
 
