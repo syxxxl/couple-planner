@@ -9,16 +9,11 @@
 <title>我们的约定清单</title>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
-
 body {
   font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
-  background: #0d0d1a;
-  min-height: 100vh; min-height: 100dvh;
-  overflow-x: hidden;
-  -webkit-tap-highlight-color: transparent;
-  user-select: none;
+  background: #0d0d1a; min-height: 100vh; min-height: 100dvh;
+  overflow-x: hidden; -webkit-tap-highlight-color: transparent; user-select: none;
 }
-
 .stars { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
 .star {
   position: absolute; border-radius: 50%; background: #fff;
@@ -28,17 +23,14 @@ body {
   0%,100% { opacity: 0.15; transform: scale(1); }
   50% { opacity: 0.9; transform: scale(1.6); box-shadow: 0 0 8px #fff; }
 }
-
 .shooting {
   position: fixed; pointer-events: none; z-index: 0;
   width: 2px; height: 2px; background: #fff; border-radius: 50%;
-  box-shadow: 0 0 8px 3px rgba(255,255,255,0.5);
-  animation: shoot 3s linear infinite;
+  box-shadow: 0 0 8px 3px rgba(255,255,255,0.5); animation: shoot 3s linear infinite;
 }
 .shooting::after {
   content: ''; position: absolute; top: 50%; transform: translateY(-50%);
-  width: 70px; height: 1px;
-  background: linear-gradient(90deg, rgba(255,255,255,0.6), transparent);
+  width: 70px; height: 1px; background: linear-gradient(90deg, rgba(255,255,255,0.6), transparent);
 }
 @keyframes shoot {
   0% { left: -5%; top: 8%; opacity: 0; }
@@ -46,7 +38,6 @@ body {
   25% { left: 110%; top: 25%; opacity: 0; }
   100% { opacity: 0; left: 110%; top: 25%; }
 }
-
 .glow {
   position: fixed; border-radius: 50%; pointer-events: none; z-index: 0; filter: blur(90px);
 }
@@ -56,18 +47,14 @@ body {
 @keyframes orbA { 0%,100%{transform:translate(0,0) scale(1)} 33%{transform:translate(40px,-25px) scale(1.15)} 66%{transform:translate(-20px,15px) scale(0.9)} }
 @keyframes orbB { 0%,100%{transform:translate(0,0) scale(1)} 33%{transform:translate(-30px,20px) scale(1.1)} 66%{transform:translate(25px,-15px) scale(0.85)} }
 @keyframes orbC { 0%,100%{transform:translate(0,0) scale(1)} 33%{transform:translate(20px,20px) scale(1.05)} 66%{transform:translate(-30px,-10px) scale(0.95)} }
-
 .ct { position: relative; z-index: 1; max-width: 380px; margin: 0 auto; padding: 10px 12px 50px; }
-
 .hd { text-align: center; padding: 16px 0 6px; }
 .hd .t {
   font-size: 1.4rem; font-weight: 700;
   background: linear-gradient(135deg, #ff6b9d, #c44dff, #ff9a9e);
-  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-  letter-spacing: 3px;
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; letter-spacing: 3px;
 }
 .hd .s { font-size: 0.75rem; color: rgba(255,255,255,0.35); letter-spacing: 1px; margin-top: 2px; }
-
 .nc {
   background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.06);
   border-radius: 16px; padding: 12px 16px; margin-bottom: 10px;
@@ -81,11 +68,7 @@ body {
 }
 .nc input:focus { border-color: rgba(255,107,157,0.4); box-shadow: 0 0 22px rgba(255,107,157,0.12); }
 .nc input::placeholder { color: rgba(255,255,255,0.2); }
-.nc .hi {
-  font-size: 1.3rem;
-  animation: hb 1.2s ease-in-out infinite;
-  filter: drop-shadow(0 0 10px rgba(255,107,157,0.5));
-}
+.nc .hi { font-size: 1.3rem; animation: hb 1.2s ease-in-out infinite; filter: drop-shadow(0 0 10px rgba(255,107,157,0.5)); }
 @keyframes hb {
   0%,100% { transform: scale(1); }
   14% { transform: scale(1.28); }
@@ -93,7 +76,6 @@ body {
   42% { transform: scale(1.22); }
   56% { transform: scale(1); }
 }
-
 .st { display: flex; justify-content: center; gap: 32px; margin-bottom: 12px; }
 .st .num {
   font-size: 1.5rem; font-weight: 700;
@@ -101,7 +83,6 @@ body {
   -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; text-align: center;
 }
 .st .lb { font-size: 0.7rem; color: rgba(255,255,255,0.35); text-align: center; }
-
 .ac {
   background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.06);
   border-radius: 20px; padding: 13px; margin-bottom: 12px;
@@ -109,8 +90,7 @@ body {
 }
 .ac input {
   width: 100%; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.08);
-  color: #eee; padding: 10px 12px; border-radius: 14px; font-size: 0.9rem;
-  outline: none; margin-bottom: 7px;
+  color: #eee; padding: 10px 12px; border-radius: 14px; font-size: 0.9rem; outline: none; margin-bottom: 7px;
 }
 .ac input:focus { border-color: rgba(196,77,255,0.4); box-shadow: 0 0 20px rgba(196,77,255,0.1); }
 .ac input::placeholder { color: rgba(255,255,255,0.2); }
@@ -121,16 +101,14 @@ body {
   cursor: pointer; box-shadow: 0 4px 24px rgba(196,77,255,0.2);
 }
 .abtn:active { transform: scale(0.96); }
-
-.sync-dot { text-align: center; margin-bottom: 10px; font-size: 0.72rem; }
-.sync-dot.ok { color: #81c784; }
-.sync-dot.err { color: #ef9a9a; }
-.sync-dot.loading { color: rgba(255,255,255,0.4); }
-
+.sd { text-align: center; margin-bottom: 8px; font-size: 0.7rem; }
+.sd.ok { color: #81c784; }
+.sd.err { color: #ef9a9a; }
+.sd.ld { color: rgba(255,255,255,0.4); }
 .pc {
   background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.05);
   border-radius: 18px; padding: 14px; margin-bottom: 10px;
-  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); position: relative; overflow: hidden;
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); position: relative;
 }
 .pc.dn { background: rgba(255,255,255,0.02); border-color: rgba(255,255,255,0.03); }
 .pc::before {
@@ -138,35 +116,27 @@ body {
   background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent);
 }
 .pc:active { transform: scale(0.98); }
-
 .pc .hd2 { display: flex; align-items: flex-start; justify-content: space-between; }
 .pc .tt { font-size: 0.93rem; font-weight: 600; color: #eee; flex: 1; padding-right: 6px; line-height: 1.4; }
 .pc .x { font-size: 0.9rem; color: rgba(255,255,255,0.25); cursor: pointer; padding: 3px 5px; }
 .pc .x:active { color: #ff6b9d; }
 .pc .ds { font-size: 0.78rem; color: rgba(255,255,255,0.4); margin-top: 3px; line-height: 1.5; }
-
 .bdg { display: inline-block; padding: 2px 9px; border-radius: 10px; font-size: 0.68rem; letter-spacing: 1px; margin-top: 6px; }
 .bdg.td { background: rgba(196,77,255,0.12); color: rgba(196,77,255,0.75); border: 1px solid rgba(196,77,255,0.15); }
 .bdg.dn { background: rgba(102,187,106,0.12); color: rgba(102,187,106,0.75); border: 1px solid rgba(102,187,106,0.15); }
-
 .pc .tm { font-size: 0.76rem; color: rgba(255,255,255,0.4); margin-top: 6px; }
-
 .er { display: flex; gap: 2px; flex-wrap: wrap; margin-top: 8px; }
 .er span {
-  font-size: 1.25rem; padding: 4px 7px; border-radius: 14px;
-  cursor: pointer; opacity: 0.45;
+  font-size: 1.25rem; padding: 4px 7px; border-radius: 14px; cursor: pointer; opacity: 0.45;
 }
 .er span:active, .er span.on { opacity: 1; transform: scale(1.15); background: rgba(255,255,255,0.06); box-shadow: 0 0 14px rgba(255,107,157,0.15); }
-
 .pc .md { font-size: 1.7rem; margin-top: 6px; }
-
 .dr { display: flex; align-items: center; gap: 5px; margin-top: 8px; font-size: 0.76rem; color: rgba(255,255,255,0.4); }
 .dr input {
   background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.08);
   color: #eee; padding: 6px 8px; border-radius: 10px; font-size: 0.76rem; outline: none;
 }
 .dr input:focus { border-color: rgba(196,77,255,0.35); }
-
 .br { display: flex; gap: 6px; margin-top: 8px; }
 .br button {
   flex: 1; padding: 7px; border-radius: 12px;
@@ -176,21 +146,17 @@ body {
 .br button:active { background: rgba(255,255,255,0.1); transform: scale(0.96); }
 .br .b1 { border-color: rgba(102,187,106,0.25); color: #81c784; }
 .br .b2 { border-color: rgba(255,107,157,0.25); color: rgba(255,107,157,0.65); }
-
 .emp { text-align: center; padding: 36px 16px; color: rgba(255,255,255,0.25); }
 .emp .bi { font-size: 2.8rem; display: block; margin-bottom: 10px; opacity: 0.5; }
-
 .fh { position: fixed; inset: 0; pointer-events: none; z-index: 999; overflow: hidden; }
 .fh span {
-  position: absolute; font-size: 1.1rem;
-  animation: fu 3.2s ease-out forwards;
+  position: absolute; font-size: 1.1rem; animation: fu 3.2s ease-out forwards;
 }
 @keyframes fu {
   0% { opacity: 1; transform: translateY(0) scale(0.4) rotate(0deg); }
   60% { opacity: 0.6; transform: translateY(-45vh) scale(1) rotate(12deg); }
   100% { opacity: 0; transform: translateY(-85vh) scale(0.2) rotate(-12deg); }
 }
-
 @media (max-width: 360px) {
   .ct { padding: 6px 8px 40px; }
   .hd .t { font-size: 1.2rem; letter-spacing: 2px; }
@@ -199,18 +165,15 @@ body {
 </style>
 </head>
 <body>
-
 <div class="glow a"></div><div class="glow b"></div><div class="glow c"></div>
 <div class="stars" id="stars"></div>
 <div class="shooting"></div>
 <div class="fh" id="fh"></div>
-
 <div class="ct">
   <div class="hd">
     <div class="t" id="mainTitle">我们的约定清单</div>
     <div class="s">把想一起做的事写下来，一件件完成 ✨</div>
   </div>
-
   <div class="nc">
     <div class="r">
       <input id="n1" placeholder="你的名字" maxlength="10">
@@ -218,125 +181,101 @@ body {
       <input id="n2" placeholder="TA的名字" maxlength="10">
     </div>
   </div>
-
   <div class="st">
     <div><div class="num" id="dn">0</div><div class="lb">已完成</div></div>
     <div><div class="num" id="tn">0</div><div class="lb">待完成</div></div>
   </div>
-
-  <div class="sync-dot loading" id="syncDot">⏳ 加载中...</div>
-
+  <div class="sd ld" id="sd">⏳ 加载中...</div>
   <div class="ac">
     <input id="ti" placeholder="想一起做什么？" maxlength="50">
     <input id="di" placeholder="补充描述（选填）" maxlength="100">
     <button class="abtn" onclick="add()">十 添 加</button>
   </div>
-
   <div id="cards"></div>
 </div>
 
 <script>
-const API = 'https://api.github.com/repos/syxxxl/couple-planner/contents/data.json';
-const RAW = 'https://raw.githubusercontent.com/syxxxl/couple-planner/master/data.json';
+var API = 'https://api.github.com/repos/syxxxl/couple-planner/contents/data.json';
+var E = ['😍','🥰','😆','😋','🤩','🥳','😌','🤯','😅','😢','😤','😴'];
+var H = ['💕','💖','💗','💝','💘','✨','💫','🌸'];
+var names = ['',''], list = [], token = '';
 
-const E = ['😍','🥰','😆','😋','🤩','🥳','😌','🤯','😅','😢','😤','😴'];
-const H = ['💕','💖','💗','💝','💘','✨','💫','🌸'];
+function sd(cls, txt) { var d = document.getElementById('sd'); d.className = 'sd '+cls; d.textContent = txt; }
 
-let names = ['',''];
-let list  = [];
-let token = '';
+function authHeaders() { return { 'Authorization': 'token ' + token }; }
 
-function sd(cls, txt) {
-  var d = document.getElementById('syncDot');
-  d.className = 'sync-dot ' + cls;
-  d.textContent = txt;
+function api(req, callback) {
+  fetch(API, req)
+    .then(function(r){ return r.json().then(function(d){ callback(null, r, d); }); })
+    .catch(function(e){ callback(e); });
 }
 
 function getToken() {
   token = localStorage.cp_tk || '';
   if (token) return;
-  var tk = prompt('首次使用需要 GitHub Token：\n\n1. 打开 https://github.com/settings/tokens \n2. 点 Generate new token (classic)\n3. 勾选 repo，生成后复制到这里\n');
+  var tk = prompt('首次使用需要 GitHub Token：\n\n1. 打开 https://github.com/settings/tokens\n2. 点 Generate new token (classic)\n3. 勾选 repo，生成后复制到这里\n');
   if (tk && tk.trim()) { token = tk.trim(); localStorage.cp_tk = token; }
 }
 
-function fetchJson(url, opts) {
-  return fetch(url, opts).then(function(r){
-    if (!r.ok) throw new Error(r.status + ' ' + (r.statusText || ''));
-    return r.json();
-  });
-}
-
 function loadData() {
-  // 总是先渲染 localStorage 的缓存数据
-  var a = localStorage.cp_n;
-  var b = localStorage.cp_l;
-  if (a && b) { names = JSON.parse(a); list = JSON.parse(b); }
-  applyAndRender();
+  // 1. 先用 localStorage 渲染
+  var a = localStorage.cp_n, b = localStorage.cp_l;
+  if (a && b) { names = JSON.parse(a); list = JSON.parse(b); applyAndRender(); }
+  if (!token) { sd('err','请先输入 Token'); getToken(); if (!token) return; loadData(); return; }
 
-  // 再从 GitHub 拉最新
-  sd('loading', '⏳ 加载中...');
-  fetchJson(RAW + '?t=' + Date.now())
-    .then(function(d){
-      names = d.names || ['',''];
-      list  = d.list  || [];
+  sd('ld','⏳ 加载中...');
+
+  // 2. 用 API 读（不走 CDN，始终最新）
+  api({ headers: authHeaders() }, function(err, r, d){
+    if (err) { sd('err','网络错误'); return; }
+    if (r.status === 404) {
+      // 文件不存在，先用本地数据
+      sd('ok','🟢 本地模式');
+      return;
+    }
+    if (!d.content) { sd('err','Token 无效 (401)'); return; }
+    try {
+      var raw = decodeURIComponent(escape(atob(d.content.replace(/\s/g,''))));
+      var data = JSON.parse(raw);
+      names = data.names || ['',''];
+      list  = data.list  || [];
       localStorage.cp_n = JSON.stringify(names);
       localStorage.cp_l = JSON.stringify(list);
       applyAndRender();
-      sd('ok', '🟢 已同步');
-    })
-    .catch(function(e){
-      if (!a && !b) { sd('err', '⚠ 暂无数据，请添加你的第一条约定'); }
-      else { sd('ok', '🟢 使用本地缓存'); }
-    });
+      sd('ok','🟢 已同步');
+    } catch(e) { sd('err','数据解析失败'); }
+  });
 }
 
 function pushData() {
-  if (!token) { sd('err', '🔴 请先输入 Token'); getToken(); if (!token) return; }
+  if (!token) { getToken(); if (!token) return; }
 
   var body = JSON.stringify({ names: names, list: list });
   var b64  = btoa(unescape(encodeURIComponent(body)));
+  sd('ld','⏳ 同步中...');
 
-  sd('loading', '⏳ 同步中...');
+  // 先拿当前文件的 SHA
+  api({ headers: authHeaders() }, function(err, r, info){
+    var payload = { message: 'update', content: b64 };
+    if (!err && info && info.sha) payload.sha = info.sha;
 
-  // Step 1: 获取当前文件的 SHA
-  fetchJson(API, { headers: { 'Authorization': 'token ' + token } })
-    .then(function(info){
-      var payload = { message: 'update', content: b64 };
-      if (info.sha) payload.sha = info.sha;
-      // Step 2: PUT 更新
-      return fetchJson(API, {
-        method: 'PUT',
-        headers: { 'Authorization': 'token ' + token, 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      });
-    }, function(e){
-      // 文件不存在（404），创建新文件
-      if (e.message.indexOf('404') !== -1) {
-        return fetchJson(API, {
-          method: 'PUT',
-          headers: { 'Authorization': 'token ' + token, 'Content-Type': 'application/json' },
-          body: JSON.stringify({ message: 'create', content: b64 })
-        });
-      }
-      throw e;
-    })
-    .then(function(d){
-      if (d && d.content && d.content.sha) {
-        sd('ok', '🟢 已同步 ' + new Date().toLocaleTimeString());
-      } else {
-        sd('ok', '🟢 已同步');
-      }
-    })
-    .catch(function(e){
-      sd('err', '🔴 同步失败: ' + (e.message || '网络错误'));
-    });
+    // PUT
+    fetch(API, {
+      method: 'PUT',
+      headers: { 'Authorization': 'token ' + token, 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    }).then(function(r2){
+      if (r2.ok) { sd('ok','🟢 已同步'); }
+      else { sd('err','同步失败: HTTP '+r2.status); }
+    }).catch(function(){ sd('err','同步失败: 网络错误'); });
+  });
 }
 
 function sv() {
   localStorage.cp_n = JSON.stringify(names);
   localStorage.cp_l = JSON.stringify(list);
-  pushData();
   render();
+  pushData();
 }
 
 function applyAndRender() {
@@ -345,21 +284,15 @@ function applyAndRender() {
   render();
 }
 
-function sn() {
-  names[0] = document.getElementById('n1').value.trim();
-  names[1] = document.getElementById('n2').value.trim();
-  sv();
-}
+function sn() { names[0] = document.getElementById('n1').value.trim(); names[1] = document.getElementById('n2').value.trim(); sv(); }
 
 function add() {
   var t = document.getElementById('ti').value.trim();
   if (!t) return;
   var d = document.getElementById('di').value.trim();
   list.unshift({ id: Date.now(), title: t, desc: d, done: false, time: '', mood: '' });
-  document.getElementById('ti').value = '';
-  document.getElementById('di').value = '';
-  bHeart();
-  sv();
+  document.getElementById('ti').value = ''; document.getElementById('di').value = '';
+  bHeart(); sv();
 }
 
 function del(id) { list = list.filter(function(x){ return x.id !== id; }); sv(); }
@@ -369,12 +302,12 @@ function toggle(id) {
   if (!item) return;
   if (item.done) { item.done = false; item.time = ''; item.mood = ''; }
   else {
-    var ti = document.getElementById('t_'+id);
-    var mh = document.getElementById('m_'+id);
+    item.done = true;
+    var ti = document.getElementById('t_'+id), mh = document.getElementById('m_'+id);
     if (ti) item.time = ti.value;
     if (mh) item.mood = mh.value;
-    if (!item.mood && mh) item.mood = '😍';
-    item.done = true; bSpark();
+    if (!item.mood) item.mood = '😍';
+    bSpark();
   }
   sv();
 }
@@ -396,9 +329,9 @@ function st(id) {
 function bHeart() {
   var c = document.getElementById('fh');
   for (var i = 0; i < 8; i++) {
-    var h = document.createElement('span');
-    h.textContent = H[i]; h.style.left = (15 + Math.random() * 70) + '%';
-    h.style.bottom = '5px'; h.style.animationDuration = (2.2 + Math.random() * 2.2) + 's';
+    var h = document.createElement('span'); h.textContent = H[i];
+    h.style.left = (15 + Math.random() * 70) + '%'; h.style.bottom = '5px';
+    h.style.animationDuration = (2.2 + Math.random() * 2.2) + 's';
     h.style.animationDelay = (Math.random() * 0.4) + 's';
     h.style.fontSize = (1 + Math.random() * 1.6) + 'rem';
     c.appendChild(h); setTimeout(function(){ h.remove(); }, 3500);
@@ -406,24 +339,22 @@ function bHeart() {
 }
 
 function bSpark() {
-  var c = document.getElementById('fh');
-  var sp = ['✨','🌟','💫','🎉'];
+  var c = document.getElementById('fh'), sp = ['✨','🌟','💫','🎉'];
   for (var i = 0; i < 22; i++) {
-    var s = document.createElement('span');
-    s.textContent = sp[i % 4]; s.style.left = (25 + Math.random() * 50) + '%';
-    s.style.bottom = '25%'; s.style.animationDuration = (1.5 + Math.random() * 2) + 's';
+    var s = document.createElement('span'); s.textContent = sp[i % 4];
+    s.style.left = (25 + Math.random() * 50) + '%'; s.style.bottom = '25%';
+    s.style.animationDuration = (1.5 + Math.random() * 2) + 's';
     s.style.fontSize = (0.7 + Math.random() * 1.8) + 'rem';
     c.appendChild(s); setTimeout(function(){ s.remove(); }, 3500);
   }
 }
 
 function render() {
-  var n1 = names[0] || '我'; var n2 = names[1] || 'TA';
+  var n1 = names[0] || '我', n2 = names[1] || 'TA';
   document.getElementById('mainTitle').textContent = n1 + ' ♡ ' + n2;
   var d = 0, t = 0;
   list.forEach(function(x){ x.done ? d++ : t++; });
-  document.getElementById('dn').textContent = d;
-  document.getElementById('tn').textContent = t;
+  document.getElementById('dn').textContent = d; document.getElementById('tn').textContent = t;
   var c = document.getElementById('cards');
   if (list.length === 0) {
     c.innerHTML = '<div class="emp"><span class="bi">💌</span>还没有约定哦<br>写下来就不会忘了</div>';
@@ -451,10 +382,8 @@ function render() {
   }
   s.innerHTML = h;
 })();
-
 document.getElementById('n1').oninput = sn;
 document.getElementById('n2').oninput = sn;
-
 getToken();
 loadData();
 </script>
